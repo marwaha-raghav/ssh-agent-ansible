@@ -11,6 +11,7 @@ def ssh_agent():
       subprocess.run(["ssh-agent", "-a" f"{SSH_AUTH_SOCK}"], check=True, stdout=subprocess.DEVNULL)
 
       with open(os.path.expanduser("~/.ssh_askpass"), 'w') as pass_file:
+         pass_file.write("#!/bin/bash\n")
          pass_file.write(f"echo \"{SSH_KEY_PASSPHRASE}\"")
       os.chmod(os.path.expanduser('~/.ssh_askpass'), 0o755)
       ANSIBLE_SSH_KEY.replace('\r', '')
