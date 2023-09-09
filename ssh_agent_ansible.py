@@ -8,7 +8,7 @@ SSH_KEY_PASSPHRASE = os.getenv("SSH_KEY_PASSPHRASE")
 
 def ssh_agent():
     try:
-      subprocess.run(["ssh-agent", "-a" f"{SSH_AUTH_SOCK}"], check=True, stdout=subprocess.DEVNULL)
+      subprocess.run(["eval", "$(ssh-agent)", "-a" f"{SSH_AUTH_SOCK}"], check=True, stdout=subprocess.DEVNULL, shell=True)
 
       with open(os.path.expanduser("~/.ssh_askpass"), 'w') as pass_file:
          pass_file.write("#!/bin/bash\n")
