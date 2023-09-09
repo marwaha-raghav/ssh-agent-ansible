@@ -9,7 +9,7 @@ SSH_KEY_PASSPHRASE = os.getenv("SSH_KEY_PASSPHRASE")
 
 def ssh_agent():
     try:
-      agent_process = subprocess.run([f'eval $(ssh-agent -a {SSH_AUTH_SOCK})'], check=True, stdout=subprocess.DEVNULL, shell=True, capture_output=True)
+      agent_process = subprocess.run([f'eval $(ssh-agent -a {SSH_AUTH_SOCK})'], check=True, shell=True, capture_output=True)
       agent_output = agent_process.stdout 
       match = re.search(r"Agent pid (\d+)", agent_output)
       
