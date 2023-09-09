@@ -1,6 +1,7 @@
 import os
 import subprocess
 from subprocess import CalledProcessError, TimeoutExpired
+import re
 
 SSH_AUTH_SOCK = os.getenv("SSH_AUTH_SOCK")
 ANSIBLE_SSH_KEY = os.getenv("ANSIBLE_SSH_KEY")
@@ -8,7 +9,15 @@ SSH_KEY_PASSPHRASE = os.getenv("SSH_KEY_PASSPHRASE")
 
 def ssh_agent():
     try:
-      subprocess.run([f'eval $(ssh-agent -a {SSH_AUTH_SOCK})'], check=True, stdout=subprocess.DEVNULL, shell=True)
+      agent_process = subprocess.run([f'eval $(ssh-agent -a {SSH_AUTH_SOCK})'], check=True, stdout=subprocess.DEVNULL, shell=True, capture_output=True)
+      agent_output = agent_process.stdout 
+      match = re.search(r"Agent pid (\d+)", agent_output)
+      
+      if match:
+        agent_pid = match.group(1)
+        print(agent_pid)
+      else:
+        print("Agent PID not found.")
 
       with open(os.path.expanduser("~/.ssh_askpass"), 'w') as pass_file:
          pass_file.write("#!/bin/bash\n")
@@ -18,7 +27,8 @@ def ssh_agent():
       password = subprocess.run([os.path.expanduser("~/.ssh_askpass")], capture_output=True)
       env = {
          "DISPLAY": "None",
-         "SSH_ASKPASS": f"{password.stdout}" 
+         "SSH_ASKPASS": f"{password.stdout}",
+         "SSH_AGENT_PID": f"{agent_pid}" 
       }
 
       process = subprocess.run(["ssh-add", "-"], input=ANSIBLE_SSH_KEY, env={**env}, stdout=subprocess.DEVNULL, text=True, check=True)
