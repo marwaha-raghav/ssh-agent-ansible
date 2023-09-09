@@ -26,6 +26,7 @@ def ssh_agent():
     
     except CalledProcessError as e:
        print(f"Process failed non-zero code returned \n {e}")
+       raise 
     except TimeoutExpired as e:
        print(f"Process Timed out \n {e}")
 
