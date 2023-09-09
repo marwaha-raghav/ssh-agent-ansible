@@ -11,11 +11,12 @@ def ssh_agent():
     try:
       agent_process = subprocess.run([f'eval $(ssh-agent -a {SSH_AUTH_SOCK})'], check=True, shell=True, capture_output=True, text=True)
       agent_output = agent_process.stdout 
-      match = re.search(r"Agent pid (\d+)", agent_output)
+      match = re.search("Agent pid (\d+)", agent_output.strip())
+      print(agent_output.strip())
       
       if match:
         agent_pid = match.group(1)
-        print(agent_pid)
+        print(agent_pid.strip())
       else:
         print("Agent PID not found.")
 
@@ -28,7 +29,8 @@ def ssh_agent():
       env = {
          "DISPLAY": "None",
          "SSH_ASKPASS": f"{password.stdout}",
-         "SSH_AGENT_PID": f"{agent_pid}" 
+         "SSH_AGENT_PID": f"{agent_pid}",
+         "SSH_AUTH_SOCK": f"{SSH_AUTH_SOCK}" 
       }
 
       process = subprocess.run(["ssh-add", "-"], input=ANSIBLE_SSH_KEY, env={**env}, stdout=subprocess.DEVNULL, text=True, check=True)
