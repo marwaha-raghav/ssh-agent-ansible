@@ -31,7 +31,7 @@ def ssh_agent():
 
 if __name__ == '__main__':
 
-    if not all(SSH_AUTH_SOCK, SSH_KEY_PASSPHRASE, ANSIBLE_SSH_KEY):
+    if not all([SSH_AUTH_SOCK, SSH_KEY_PASSPHRASE, ANSIBLE_SSH_KEY]):
        print("Error: Some Credential is not set to a valid path")
     else:
        ssh_agent()
