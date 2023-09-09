@@ -10,6 +10,7 @@ jobs:
         
       - name: 'Remove old SSH_AUTH_SOCKET and SSH-AGENT Instance'
         run: |
+          rm /tmp/ssh_agent.sock
           unset SSH_AUTH_SOCK
           pkill ssh-agent
         continue-on-error: true
