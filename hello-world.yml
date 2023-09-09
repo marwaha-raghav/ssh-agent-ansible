@@ -1,0 +1,9 @@
+---
+- name: 'Hello World'
+  hosts: all
+  remote_user: root
+  vars: 
+    ansible_host_key_checking: false
+  tasks:
+    - name: 'Say Hello'
+      command: echo Hello
