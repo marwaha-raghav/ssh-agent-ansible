@@ -24,7 +24,7 @@ def ssh_agent():
          pass_file.write(f"echo \"{SSH_KEY_PASSPHRASE}\"")
       os.chmod(os.path.expanduser('~/.ssh_askpass'), 0o755)
       ANSIBLE_SSH_KEY.replace('\r', '')
-      password = subprocess.run([os.path.expanduser("~/.ssh_askpass")], capture_output=True)
+      password = subprocess.run([os.path.expanduser("~/.ssh_askpass")], capture_output=True, text=True)
       env = {
          "DISPLAY": "None",
          "SSH_ASKPASS": f"{password.stdout}",
