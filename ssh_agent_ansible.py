@@ -25,20 +25,19 @@ def ssh_agent():
          pass_file.write(f"echo \"$SSH_KEY_PASSPHRASE\"")
       os.chmod(os.path.expanduser('~/.ssh_askpass'), 0o755)
       ANSIBLE_SSH_KEY.replace('\r', '')
-      password = subprocess.run([os.path.expanduser("~/.ssh_askpass")], capture_output=True, text=True)
       #print(password.stdout)
-      env = {
+      envi = os.environ.copy()
+      envi.update({
          "DISPLAY": "None",
          "SSH_ASKPASS": os.path.expanduser("~/.ssh_askpass"),
          "SSH_AGENT_PID": f"{agent_pid}",
          "SSH_AUTH_SOCK": f"{SSH_AUTH_SOCK}", 
          "ANSIBLE_SSH_KEY": f"{ANSIBLE_SSH_KEY}"
-      }
+      })
 
-      process = subprocess.Popen(["ssh-add", "-"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, env={**env}, text=True)
-      stdout, stderr = process.communicate(input=ANSIBLE_SSH_KEY.strip())
-      print(stdout)
-      print(stderr)   
+      process = subprocess.run(["ssh-add", "-"], input=envi["ANSIBLE_SSH_KEY"].strip(), stderr=subprocess.PIPE, stdout=subprocess.PIPE, env=envi, check=True, text=True)
+      print(f" STDOUT: {process.stdout}")
+      print(f"STDERR: {process.stderr}")   
     
     except CalledProcessError as e:
        print(f"Process failed non-zero code returned \n {e}")
