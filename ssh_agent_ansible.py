@@ -22,23 +22,28 @@ def ssh_agent():
 
       with open(os.path.expanduser("~/.ssh_askpass"), 'w') as pass_file:
          pass_file.write("#!/bin/bash\n")
-         pass_file.write(f"echo \"{SSH_KEY_PASSPHRASE}\"")
+         pass_file.write(f"echo \"$SSH_KEY_PASSPHRASE\"")
       os.chmod(os.path.expanduser('~/.ssh_askpass'), 0o755)
       ANSIBLE_SSH_KEY.replace('\r', '')
       password = subprocess.run([os.path.expanduser("~/.ssh_askpass")], capture_output=True, text=True)
+      #print(password.stdout)
       env = {
          "DISPLAY": "None",
-         "SSH_ASKPASS": f"{password.stdout}",
+         "SSH_ASKPASS": os.path.expanduser("~/.ssh_askpass"),
          "SSH_AGENT_PID": f"{agent_pid}",
-         "SSH_AUTH_SOCK": f"{SSH_AUTH_SOCK}" 
+         "SSH_AUTH_SOCK": f"{SSH_AUTH_SOCK}", 
+         "ANSIBLE_SSH_KEY": f"{ANSIBLE_SSH_KEY}"
       }
 
-      process = subprocess.run(["ssh-add", "-"], input=ANSIBLE_SSH_KEY, env={**env}, stdout=subprocess.DEVNULL, text=True, check=True)
-         
+      process = subprocess.Popen(["ssh-add", "-"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, env={**env}, text=True)
+      stdout, stderr = process.communicate(input=ANSIBLE_SSH_KEY.strip())
+      print(stdout)
+      print(stderr)   
     
     except CalledProcessError as e:
        print(f"Process failed non-zero code returned \n {e}")
-       raise 
+       raise
+     
     except TimeoutExpired as e:
        print(f"Process Timed out \n {e}")
 

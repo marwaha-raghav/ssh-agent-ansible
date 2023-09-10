@@ -161,3 +161,6 @@ cython_debug/
 .env
 env.sh
 *env*
+
+#IDE
+.vscode/*
