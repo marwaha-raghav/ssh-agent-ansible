@@ -27,4 +27,6 @@ jobs:
         run: ansible --version
 
       - name: 'Run the hello world playbook'
+        env:  
+          SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
         run: ansible-playbook -i ./inventory --limit 'dev_nodes' ./hello-world.yml
