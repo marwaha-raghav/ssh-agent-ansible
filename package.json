@@ -1,0 +1,27 @@
+{
+  "name": "ssh-agent-ansible",
+  "version": "1.0.0",
+  "description": "[![Pipeline for Testing ansible infrastructure with SSH-AGENT Automation](https://github.com/marwaha-raghav/ssh-agent-ansible/actions/workflows/test-workflow.yml/badge.svg)](https://github.com/marwaha-raghav/ssh-agent-ansible/actions/workflows/test-workflow.yml)",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marwaha-raghav/ssh-agent-ansible.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marwaha-raghav/ssh-agent-ansible/issues"
+  },
+  "homepage": "https://github.com/marwaha-raghav/ssh-agent-ansible#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/exec": "^1.1.1"
+  }
+}
