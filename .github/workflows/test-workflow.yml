@@ -1,8 +1,8 @@
-name: Pipeline for Testing ansible infrastructure
-run-name: Running hello world test playbook
+name: Pipeline for Testing ansible infrastructure with SSH-AGENT Automation
+run-name: "Pipeline Executed by ${{github.actor}}"
 on: [workflow_dispatch]
 jobs:
-  Run-Test-Playbooks:
+  Run-Ansible-Pipeline:
     runs-on: self-hosted
     steps:
       - name: 'Checkout Repo'
@@ -15,7 +15,7 @@ jobs:
           pkill ssh-agent
         continue-on-error: true
 
-      - name: Setup SSH Agent
+      - name: Execute Key & passphrase Storage with SSH-AGENT
         env:
           SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
           SSH_KEY_PASSPHRASE: ${{secrets.SSH_KEY_PASSPHRASE}}
@@ -26,7 +26,7 @@ jobs:
       - name: 'Check ansible version'
         run: ansible --version
 
-      - name: 'Run the hello world playbook'
+      - name: 'Run the Test playbook'
         env:  
           SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
-        run: ansible-playbook -i ./inventory --limit 'dev_nodes' ./hello-world.yml
+        run: ansible-playbook -i ./tests/inventory --limit 'dev_nodes' ./tests/hello-world.yml
