@@ -1,3 +1,5 @@
+[![Pipeline for Testing ansible infrastructure with SSH-AGENT Automation](https://github.com/marwaha-raghav/ssh-agent-ansible/actions/workflows/test-workflow.yml/badge.svg)](https://github.com/marwaha-raghav/ssh-agent-ansible/actions/workflows/test-workflow.yml)
+
 # ssh-agent-ansible
 
 This tool has been built for automating ssh-add for key with/without passphrase.
