@@ -1,6 +1,9 @@
 name: 'SSH Agent Setup'
 description: 'Set up ssh-agent and add keys & passphrase on the runner.'
 author: 'Raghav Marwaha'
+branding:
+  icon: 'activity'
+  color: 'red'
 inputs:
   ANSIBLE_SSH_KEY:
     description: 'SSH private key to add to the agent.'
