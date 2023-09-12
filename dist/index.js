@@ -4125,7 +4125,8 @@ async function run() {
     };
 
     // Python script with the environment variables
-    await exec.exec(`python3 py_scripts/ssh_agent_ansible.py`, [], { env: env });
+    const pythonScriptPath = `${__dirname}/../py_scripts/ssh_agent_ansible.py`;
+    await exec.exec(`python3 ${pythonScriptPath}`, [], { env: env });
     
   } catch (error) {
     core.setFailed(error.message);
