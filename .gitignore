@@ -10,7 +10,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -163,4 +162,7 @@ env.sh
 *env*
 
 #IDE
+.vscode
 .vscode/*
+
+node_modules

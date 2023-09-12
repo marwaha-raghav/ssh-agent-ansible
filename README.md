@@ -31,8 +31,17 @@ Any Private Key with a passphrase requires the passphrase to be added interactiv
 
 ## How to Use the Action in a Workflow
 ```
+      - name: 'Remove old SSH_AUTH_SOCKET and SSH-AGENT Instance'
+        run: |
+            rm /tmp/ssh_agent.sock
+            unset SSH_AUTH_SOCK
+            pkill ssh-agent
+        continue-on-error: true
+        shell: bash
+
+
       - name: Execute Key & passphrase Storage with SSH-AGENT
-        uses: marwaha-raghav/ssh-agent-ansible@v1
+        uses: marwaha-raghav/ssh-agent-ansible@v0.1.0
         with:
           SSH_AUTH_SOCK: "/tmp/ssh_agent.sock"
           SSH_KEY_PASSPHRASE: ${{secrets.SSH_KEY_PASSPHRASE}}
