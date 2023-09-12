@@ -3,10 +3,17 @@ run-name: "Pipeline Executed by ${{github.actor}}"
 on: [workflow_dispatch]
 jobs:
   Run-Action-Pipeline:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: 'Checkout Repo'
         uses: actions/checkout@v2
+
+      - name: 'Remove old SSH_AUTH_SOCKET and SSH-AGENT Instance'
+        run: |
+          rm /tmp/ssh_agent.sock
+          unset SSH_AUTH_SOCK
+          pkill ssh-agent
+        continue-on-error: true
         
       - name: Execute Key & passphrase Storage with SSH-AGENT
         uses: marwaha-raghav/ssh-agent-ansible@main
@@ -15,10 +22,6 @@ jobs:
           SSH_KEY_PASSPHRASE: ${{secrets.SSH_KEY_PASSPHRASE}}
           ANSIBLE_SSH_KEY: ${{secrets.ANSIBLE_SSH_KEY}}
 
-      - name: Install ansible
-        run: apt install ansible
-        shell: bash
-        
       - name: 'Check ansible version'
         run: ansible --version
 
