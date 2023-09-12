@@ -8,13 +8,6 @@ jobs:
       - name: 'Checkout Repo'
         uses: actions/checkout@v2
         
-      - name: 'Remove old SSH_AUTH_SOCKET and SSH-AGENT Instance'
-        run: |
-          rm /tmp/ssh_agent.sock
-          unset SSH_AUTH_SOCK
-          pkill ssh-agent
-        continue-on-error: true
-
       - name: Execute Key & passphrase Storage with SSH-AGENT
         uses: marwaha-raghav/ssh-agent-ansible@main
         with:
