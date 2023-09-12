@@ -5,7 +5,7 @@ async function run() {
   try {
 
     // Call your Python script
-    await exec.exec(`python3 ssh_agent.py`);
+    await exec.exec(`python3 ssh_agent_ansible.py`);
     
   } catch (error) {
     core.setFailed(error.message);
