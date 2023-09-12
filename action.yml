@@ -12,5 +12,22 @@ inputs:
     description: 'Socket file Pathfor ssh-agent.'
     required: true
 runs:
-  using: 'node12' # Specify the Node version
-  main: 'index.js' # Your JavaScript entry point
+  using: 'composite'
+  steps:
+    - name: 'Remove old SSH_AUTH_SOCKET and SSH-AGENT Instance'
+      run: |
+          rm /tmp/ssh_agent.sock
+          unset SSH_AUTH_SOCK
+          pkill ssh-agent
+      continue-on-error: true
+      shell: bash
+
+    - name: Execute Python script
+      shell: bash
+      run: python3 ssh_agent_ansible.py
+      env:
+        ANSIBLE_SSH_KEY: ${{ inputs.ANSIBLE_SSH_KEY }}
+        SSH_KEY_PASSPHRASE: ${{ inputs.SSH_KEY_PASSPHRASE }}
+        SSH_AUTH_SOCK: ${{ inputs.SSH_AUTH_SOCK }}
+        
+
