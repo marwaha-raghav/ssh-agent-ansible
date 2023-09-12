@@ -7,7 +7,7 @@ This tool has been built for automating ssh-add for key with/without passphrase.
 
 Runs ssh-agent, generates a file with passphrase for ssh_ask_pass and adds key and passphrase with ssh-add.
 
-## Why
+## Why was this built?
 
 When running a GitHub Action workflow for running ansible playbooks or roles for you Infrastructure as Code (IaC) projects, you will need to use SSH secrets (SSH Pvt Key, and passphrase (if applicable)) in a non-interactive way with the shell, this can become a bit cumbersome using toools like ssh-agent, ssh-add with direct shell commands.
 
