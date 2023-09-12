@@ -9,7 +9,7 @@ inputs:
     description: 'Passphrase for the SSH key.'
     required: true
   SSH_AUTH_SOCK:
-    description: 'Socket file Pathfor ssh-agent.'
+    description: 'Socket file Path for ssh-agent.'
     required: true
 runs:
   using: 'composite'
