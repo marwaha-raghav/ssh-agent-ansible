@@ -24,7 +24,8 @@ Any Private Key with a passphrase requires the passphrase to be added interactiv
     - Upload and Publish as a Github Action on the Marketplace.     
 ## Note:
     - This is only works with private keys in the PEM format. If used with OpenSSH format keys it will error out.
-    - The action unsets SSH_AUTH_SOCK, kills the ssh-agent process and removes the SSH_AUTH_SOCK file before every run to remove any lingering or already running instances. 
+    - The action unsets SSH_AUTH_SOCK, kills the ssh-agent process and removes the SSH_AUTH_SOCK file before every run to remove any lingering or already running instances.
+    - Tested with python3.11, Ensure to use with atleast python3.6+ 
 
 ---
 # Action: Related Details
