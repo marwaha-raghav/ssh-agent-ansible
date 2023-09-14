@@ -58,7 +58,8 @@ def ssh_agent():
             [f"eval $(ssh-agent -a {SSH_AUTH_SOCK})"],
             check=True,
             shell=True,
-            capture_output=True,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
             text=True,
         )
         agent_output = agent_process.stdout
